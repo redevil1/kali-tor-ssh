@@ -4,9 +4,11 @@
 echo "Starting SSH service..."
 /usr/sbin/sshd
 
-# Start Tor service in background
-echo "Starting Tor service..."
-/usr/bin/tor &
+# Start Tor service in background as the debian-tor user (fixes ownership warnings)
+echo "Starting Tor service as debian-tor..."
+# Use su to run tor under the debian-tor account so the hidden_service dir
+# (owned by debian-tor) is writable and ownership checks pass.
+su -s /bin/sh -c "/usr/bin/tor" debian-tor &
 
 # Wait for Tor to generate the hidden service hostname with retry logic
 echo "Waiting for Tor to generate hidden service..."
