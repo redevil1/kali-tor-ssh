@@ -1,0 +1,16 @@
+# Temporary files
+*.tmp
+*.log
+.DS_Store
+*.swp
+*.swo
+*~
+
+# IDE files
+.vscode/
+.idea/
+*.iml
+
+# Build artifacts
+*.tar.gz
+*.zip

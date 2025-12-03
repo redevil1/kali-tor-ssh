@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  kali-tor-ssh:
+    build: .
+    container_name: kali-tor-ssh
+    restart: unless-stopped
+    # Uncomment to persist the Tor hidden service (same .onion address)
+    # volumes:
+    #   - tor-hidden-service:/var/lib/tor/hidden_service
+    # Uncomment to expose SSH locally (bypasses Tor - not recommended)
+    # ports:
+    #   - "2222:22"
+    stdin_open: true
+    tty: true
+
+# Uncomment if using volumes
+# volumes:
+#   tor-hidden-service:
