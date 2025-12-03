@@ -1,29 +1,40 @@
 #!/bin/bash
 
-# Start SSH service
+# Start SSH service using daemon directly
 echo "Starting SSH service..."
-service ssh start
+/usr/sbin/sshd
 
-# Start Tor service
+# Start Tor service in background
 echo "Starting Tor service..."
-service tor start
+/usr/bin/tor &
 
-# Wait for Tor to generate the hidden service hostname
+# Wait for Tor to generate the hidden service hostname with retry logic
 echo "Waiting for Tor to generate hidden service..."
-sleep 10
+HOSTNAME_FILE="/var/lib/tor/hidden_service/hostname"
+MAX_ATTEMPTS=30
+ATTEMPT=0
+
+while [ ! -f "$HOSTNAME_FILE" ] && [ $ATTEMPT -lt $MAX_ATTEMPTS ]; do
+    sleep 2
+    ATTEMPT=$((ATTEMPT + 1))
+    if [ $((ATTEMPT % 5)) -eq 0 ]; then
+        echo "Still waiting... (attempt $ATTEMPT/$MAX_ATTEMPTS)"
+    fi
+done
 
 # Display the onion address
-if [ -f /var/lib/tor/hidden_service/hostname ]; then
+if [ -f "$HOSTNAME_FILE" ]; then
     echo "=========================================="
     echo "Tor Hidden Service is ready!"
     echo "Your SSH .onion address is:"
-    cat /var/lib/tor/hidden_service/hostname
+    cat "$HOSTNAME_FILE"
     echo "=========================================="
-    echo "Connect using: torify ssh root@$(cat /var/lib/tor/hidden_service/hostname)"
+    echo "Connect using: torify ssh root@$(cat $HOSTNAME_FILE)"
     echo "Default password: toor (PLEASE CHANGE THIS!)"
     echo "=========================================="
 else
-    echo "Warning: Hidden service hostname not found yet. It may take a few moments to generate."
+    echo "Warning: Hidden service hostname not generated within timeout."
+    echo "Check Tor logs for issues: docker exec <container> cat /var/log/tor/log"
 fi
 
 # Execute the CMD from Dockerfile or any passed arguments

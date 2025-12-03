@@ -1,6 +1,3 @@
-# Docker artifacts
-.dockerignore
-
 # Temporary files
 *.tmp
 *.log
