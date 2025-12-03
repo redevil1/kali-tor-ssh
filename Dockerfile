@@ -14,7 +14,8 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 # Create SSH directory and configure SSH
-RUN mkdir /var/run/sshd && \
+# Use -p to avoid error if directory already exists during image build
+RUN mkdir -p /var/run/sshd && \
     mkdir -p /root/.ssh && \
     chmod 700 /root/.ssh
 
