@@ -40,6 +40,20 @@ sudo service tor status
 docker build -t kali-tor-ssh .
 ```
 
+## Pulling the published image from GitHub Container Registry
+
+You don't need to build the image locally — you can pull the published image from GitHub Container Registry (GHCR) and run it directly:
+
+```bash
+# Pull the latest image
+docker pull ghcr.io/redevil1/kali-tor-ssh:latest
+````
+
+```bash
+# Run it
+docker run -d --name kali-tor-ssh ghcr.io/redevil1/kali-tor-ssh:latest
+```
+
 ## Running the Container
 
 ```bash
