@@ -1,4 +1,4 @@
-# kali-tor-ssh
+# kali-tor-ssh 🚀🔐
 
 Run Kali Linux Docker container with SSH accessible through the Tor network as a hidden service.
 
@@ -6,18 +6,34 @@ Run Kali Linux Docker container with SSH accessible through the Tor network as a
 
 This Docker container provides a Kali Linux environment with SSH server exposed through Tor network, making it accessible via a .onion address without exposing your real IP address.
 
-## Features
+## Features ✨
 
-- **Kali Linux Rolling**: Latest Kali Linux base image
-- **SSH Server**: OpenSSH server pre-configured
-- **Tor Hidden Service**: SSH accessible through Tor network
-- **Privacy**: Your SSH service is accessible only through Tor, hiding your real IP
+- **🛠️ Kali Linux Rolling**: Latest Kali Linux base image
+- **🔒 SSH Server**: OpenSSH server pre-configured
+- **🕸️ Tor Hidden Service**: SSH accessible through Tor network
+- **👁️‍🗨️ Privacy**: Your SSH service is accessible only through Tor, hiding your real IP
 
 ## Prerequisites
 
 - Docker installed on your system
 - Tor Browser or `torsocks`/`torify` for connecting to the hidden service
 
+⚠️ **Important — Start Tor Before Using `torify`**
+
+ - If you plan to use `torify` / `torsocks` (or Tor Browser) to connect to the `.onion` address, make sure a local Tor client is running and listening on the expected SOCKS port (usually `127.0.0.1:9050` or `127.0.0.1:9150`).
+ - Example (Debian/Ubuntu):
+ ```bash
+ sudo systemctl start tor
+ sudo systemctl status tor
+ ```
+You can also use the older `service` commands on systems that provide them:
+```bash
+sudo service tor start
+sudo service tor status
+```
+ - If Tor is not running you will see errors like `socks5 libc connect: Connection refused` when using `torify`.
+
+🔐 Tip: Use `torsocks -v` to get verbose output from the client when debugging connections.
 ## Building the Docker Image
 
 ```bash
@@ -30,7 +46,7 @@ docker build -t kali-tor-ssh .
 docker run -d --name kali-tor-ssh kali-tor-ssh
 ```
 
-## Getting Your .onion Address
+## Getting Your .onion Address 🔑
 
 After starting the container, retrieve your unique .onion address:
 
@@ -53,7 +69,7 @@ You can also retrieve it later:
 docker exec kali-tor-ssh cat /var/lib/tor/hidden_service/hostname
 ```
 
-## Connecting to the SSH Service
+## Connecting to the SSH Service 🔗
 
 ### Using torify (Linux/Mac)
 
@@ -83,7 +99,7 @@ ssh -o ProxyCommand="nc -X 5 -x 127.0.0.1:9050 %h %p" root@your-onion-address.on
 
 Note: Tor Browser must be running for this to work.
 
-## Default Credentials
+## Default Credentials 👤
 
 - **Username**: root
 - **Password**: toor
@@ -95,13 +111,14 @@ Note: Tor Browser must be running for this to work.
 passwd root
 ```
 
-## Security Considerations
+## Security Considerations ⚠️🔐
 
 1. **Change Default Password**: The default password `toor` is well-known and insecure.
 2. **Use SSH Keys**: Consider using SSH key authentication instead of passwords.
 3. **Keep Updated**: Regularly update the container with security patches.
 4. **Restrict Access**: The root login is enabled by default; consider creating a non-root user.
 
+🚀 Have fun, and be careful — this setup exposes a powerful system over Tor. Use strong passwords or SSH keys.
 ## Customization
 
 ### Changing the Root Password

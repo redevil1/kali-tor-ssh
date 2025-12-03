@@ -40,6 +40,18 @@ docker-compose down
 
 With torsocks:
 ```bash
+⚠️ Important: start a local Tor client before using `torify` (for example):
+
+```bash
+# systemd-based systems
+sudo systemctl start tor
+sudo systemctl status tor
+
+# or using the service helper
+sudo service tor start
+sudo service tor status
+```
+
 torify ssh root@your-onion-address.onion
 ```
 
