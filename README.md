@@ -6,6 +6,17 @@ Run Kali Linux Docker container with SSH accessible through the Tor network as a
 
 This Docker container provides a Kali Linux environment with SSH server exposed through Tor network, making it accessible via a .onion address without exposing your real IP address.
 
+## Quick Start
+
+Run the container directly from GitHub Container Registry:
+```bash
+docker run -d --name kali-tor-ssh ghcr.io/redevil1/kali-tor-ssh:latest
+```
+Get your .onion address:
+```bash
+docker logs kali-tor-ssh
+```
+
 ## Features ✨
 
 - **🛠️ Kali Linux Rolling**: Latest Kali Linux base image
